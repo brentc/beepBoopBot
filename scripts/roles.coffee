@@ -39,9 +39,12 @@ module.exports = (robot) ->
       else
         msg.send "#{name}? Never heard of 'em"
 
-  robot.respond /^\s*@?([\w .\-_]+) is (["'\w: \-_]+)[.!]*$/i, (msg) ->
+  robot.respond /@?([\w .\-_]+) is (["'\w: \-_]+)[.!]*$/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[2].trim()
+
+    if "/" == (msg.message.text.charAt 0)
+        return
 
     unless name in ['', 'who', 'what', 'where', 'when', 'why']
       unless newRole.match(/^not\s+/i)
@@ -63,9 +66,12 @@ module.exports = (robot) ->
         else
           msg.send "I don't know anything about #{name}."
 
-  robot.respond /^\s*@?([\w .\-_]+) is not (["'\w: \-_]+)[.!]*$/i, (msg) ->
+  robot.respond /@?([\w .\-_]+) is not (["'\w: \-_]+)[.!]*$/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[2].trim()
+
+    if "/" == (msg.message.text.charAt 0)
+        return
 
     unless name in ['', 'who', 'what', 'where', 'when', 'why']
       users = robot.brain.usersForFuzzyName(name)
